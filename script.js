@@ -61,3 +61,11 @@ function handleCardClick(event) {
 
 // when the DOM loads
 createDivsForColors(shuffledColors);
+
+// check how many clicks happened, see how many cards are currently open, and reset if two are opened that are unmatching
+
+// think of scenarios where card 1 and card 2 are the same
+
+// remove event listener of cards that are flipped and matching
+
+//think of scenarios where the flipped card
