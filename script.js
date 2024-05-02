@@ -4,13 +4,18 @@ const gameContainer = document.getElementById('game');
 //array of colors
 const COLORS = [ 'red', 'blue', 'green', 'orange', 'purple', 'red', 'blue', 'green', 'orange', 'purple' ];
 
+//create global scope object that keeps track of the clicked div's status
+const divTracker = { numOfClicks: 0 };
+
+//variable that stores the first click's classname
+let firstClickClassName = null;
+
 // here is a helper function to shuffle an array
 // it returns the same array with values shuffled
 // it is based on an algorithm called Fisher Yates if you want ot research more
 function shuffle(array) {
 	//create variable that stores the number of items in the array
 	let counter = array.length;
-	console.log(counter);
 
 	// While there are elements in the array
 	while (counter > 0) {
@@ -41,22 +46,29 @@ function createDivsForColors(colorArray) {
 	for (let color of colorArray) {
 		// create a new div
 		const newDiv = document.createElement('div');
+		//create an event listener for the new div
+		newDiv.addEventListener('click', function(event) {
+			//give div a new class with a value of color
+			newDiv.classList.add(color);
+			//increment the number of clicks
+			divTracker.numOfClicks++;
+			console.log(`Div was clicked ${divTracker.numOfClicks} times.`);
 
-		// give it a class attribute for the value we are looping over
-		newDiv.classList.add(color);
-
-		// call a function handleCardClick when a div is clicked on
-		newDiv.addEventListener('click', handleCardClick);
-
-		// append the div to the element with an id of game
+			//store the first click's classname
+			if (firstClickClassName === null) {
+				// Save the class name of the first click
+				firstClickClassName = this.className;
+				console.log('First click class name:', firstClickClassName);
+			} else {
+				//compare the class name of the second click with the first click
+				if (this.className === firstClickClassName) {
+					console.log(`Matching colors!`);
+				}
+			}
+		});
+		// append new div to div with id of 'game'
 		gameContainer.append(newDiv);
 	}
-}
-
-// TODO: Implement this function!
-function handleCardClick(event) {
-	// you can use event.target to see which element was clicked
-	console.log('you just clicked', event.target);
 }
 
 // when the DOM loads
