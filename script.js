@@ -9,6 +9,7 @@ const divTracker = { numOfClicks: 0 };
 
 //variable that stores the first click's classname
 let firstClickClassName = null;
+let secondClickClassName = null;
 
 // here is a helper function to shuffle an array
 // it returns the same array with values shuffled
@@ -54,18 +55,20 @@ function createDivsForColors(colorArray) {
 			divTracker.numOfClicks++;
 			console.log(`Div was clicked ${divTracker.numOfClicks} times.`);
 
-			//store the first click's classname
-			if (firstClickClassName === null) {
-				// Save the class name of the first click
-				firstClickClassName = this.className;
-				console.log('First click class name:', firstClickClassName);
-			} else {
-				//compare the class name of the second click with the first click
-				if (this.className === firstClickClassName) {
-					console.log(`Matching colors!`);
+			//stores the value of the first click to the global variable
+			if (divTracker.numOfClicks === 1) {
+				firstClickClassName = newDiv.className;
+				//stores the second click's classname to a variable
+			} else if (divTracker.numOfClicks >= 2) {
+				secondClickClassName = this.className;
+				//console.log `matching colors` if the two variables match
+				if (firstClickClassName === secondClickClassName) {
+					console.log(`Matching Colors!`);
+					//reset number of clicks when a match is found
 				}
 			}
 		});
+
 		// append new div to div with id of 'game'
 		gameContainer.append(newDiv);
 	}
@@ -81,3 +84,15 @@ createDivsForColors(shuffledColors);
 // remove event listener of cards that are flipped and matching
 
 //think of scenarios where the flipped card
+
+// //saved code for checking if colors match: 			//store the first click's classname
+// 			if (firstClickClassName === null) {
+// 				// Save the class name of the first click
+// 				firstClickClassName = this.className;
+// 				console.log('First click class name:', firstClickClassName);
+// 			} else {
+// 				//compare the class name of the second click with the first click
+// 				if (this.className === firstClickClassName) {
+// 					console.log(`Matching colors!`);
+// 				}
+// 			}
