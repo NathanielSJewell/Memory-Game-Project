@@ -11,6 +11,9 @@ const divTracker = { numOfClicks: 0 };
 let firstClickClassName = null;
 let secondClickClassName = null;
 
+//varible that keeps track of how many items are flipped
+let flippedCount = 0;
+
 // here is a helper function to shuffle an array
 // it returns the same array with values shuffled
 // it is based on an algorithm called Fisher Yates if you want ot research more
@@ -59,7 +62,7 @@ function createDivsForColors(colorArray) {
 			if (divTracker.numOfClicks === 1) {
 				firstClickClassName = newDiv.className;
 				//stores the second click's classname to a variable
-			} else if (divTracker.numOfClicks >= 2) {
+			} else if (divTracker.numOfClicks === 2) {
 				secondClickClassName = this.className;
 				//console.log `matching colors` if the two variables match
 				if (firstClickClassName === secondClickClassName) {
