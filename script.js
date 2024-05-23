@@ -1,37 +1,27 @@
-//select game div
 const gameContainer = document.getElementById('game');
 
-//array of colors
 const COLORS = [ 'red', 'blue', 'green', 'orange', 'purple', 'red', 'blue', 'green', 'orange', 'purple' ];
 
-//create global scope object that keeps track of the clicked div's status
-const divTracker = { numOfClicks: 0 };
+//select paragraph element
+const p = document.querySelector(`p`);
 
-//variable that stores the first click's classname
-let firstClickClassName = null;
-let secondClickClassName = null;
-
-//varible that keeps track of how many items are flipped
-let flippedCount = 0;
+let flipCount = 0;
 
 // here is a helper function to shuffle an array
 // it returns the same array with values shuffled
 // it is based on an algorithm called Fisher Yates if you want ot research more
 function shuffle(array) {
-	//create variable that stores the number of items in the array
 	let counter = array.length;
 
 	// While there are elements in the array
 	while (counter > 0) {
 		// Pick a random index
-		//variable stores a number between 0 and 10 (excluding 10)
 		let index = Math.floor(Math.random() * counter);
 
 		// Decrease counter by 1
 		counter--;
 
 		// And swap the last element with it
-		//swaps the values of index and counter
 		let temp = array[counter];
 		array[counter] = array[index];
 		array[index] = temp;
@@ -40,7 +30,6 @@ function shuffle(array) {
 	return array;
 }
 
-//variable stores shuffle function with COLORS passed in
 let shuffledColors = shuffle(COLORS);
 
 // this function loops over the array of colors
@@ -50,52 +39,51 @@ function createDivsForColors(colorArray) {
 	for (let color of colorArray) {
 		// create a new div
 		const newDiv = document.createElement('div');
-		//create an event listener for the new div
-		newDiv.addEventListener('click', function(event) {
-			//give div a new class with a value of color
-			newDiv.classList.add(color);
-			//increment the number of clicks
-			divTracker.numOfClicks++;
-			console.log(`Div was clicked ${divTracker.numOfClicks} times.`);
 
-			//stores the value of the first click to the global variable
-			if (divTracker.numOfClicks === 1) {
-				firstClickClassName = newDiv.className;
-				//stores the second click's classname to a variable
-			} else if (divTracker.numOfClicks === 2) {
-				secondClickClassName = this.className;
-				//console.log `matching colors` if the two variables match
-				if (firstClickClassName === secondClickClassName) {
-					console.log(`Matching Colors!`);
-					//reset number of clicks when a match is found
+		// give it a class attribute for the value we are looping over
+		newDiv.classList.add(color);
+
+		//add inner text to the div
+		newDiv.innerText = `${newDiv.classList}`;
+
+		//toggle classes off by default
+		newDiv.classList.toggle(color);
+
+		// call a function handleCardClick when a div is clicked on
+		newDiv.addEventListener('click', function(event) {
+			//save event.target to a variable
+			let targetDiv = event.target;
+			console.log(targetDiv);
+
+			//toggle class on when clicked
+			targetDiv.classList.toggle(color);
+
+			if (targetDiv.classList.contains(color)) {
+				console.log(`card is flipped!`);
+				flipCount++;
+			} else {
+				console.log(`card is unflipped.`);
+				flipCount--;
+			}
+
+			for (let div of gameContainer.children) {
+				if (this.classList != div.classList.contains(color)) {
+					newDiv.classList.toggle(color);
 				}
 			}
 		});
 
-		// append new div to div with id of 'game'
+		// append the div to the element with an id of game
 		gameContainer.append(newDiv);
 	}
 }
 
+// // TODO: Implement this function!
+// function handleCardClick(event) {
+// 	//save event.target to a variable for reference
+// 	let targetDiv = event.target;
+// 	console.log(targetDiv);
+// }
+
 // when the DOM loads
 createDivsForColors(shuffledColors);
-
-// check how many clicks happened, see how many cards are currently open, and reset if two are opened that are unmatching
-
-// think of scenarios where card 1 and card 2 are the same
-
-// remove event listener of cards that are flipped and matching
-
-//think of scenarios where the flipped card
-
-// //saved code for checking if colors match: 			//store the first click's classname
-// 			if (firstClickClassName === null) {
-// 				// Save the class name of the first click
-// 				firstClickClassName = this.className;
-// 				console.log('First click class name:', firstClickClassName);
-// 			} else {
-// 				//compare the class name of the second click with the first click
-// 				if (this.className === firstClickClassName) {
-// 					console.log(`Matching colors!`);
-// 				}
-// 			}
